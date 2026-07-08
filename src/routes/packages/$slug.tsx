@@ -28,19 +28,13 @@ import {
   Backpack,
   Heart,
   Share2,
-  Printer,
   Mail,
-  Camera,
-  Award,
-  Leaf,
-  Globe,
+  Phone,
 } from "lucide-react";
 
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Img } from "@/components/Img";
-import { WishlistButton } from "@/components/WishlistButton";
-import { CompareButton } from "@/components/CompareButton";
 import { PACKAGES } from "@/data/packages";
 import {
   Accordion,
@@ -53,14 +47,7 @@ export const Route = createFileRoute("/packages/$slug")({
   component: PackageDetailPage,
 });
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-};
+const ease = [0.22, 1, 0.36, 1];
 
 const EQUIPMENT_CHECKLIST = [
   "Down jacket",
@@ -109,19 +96,19 @@ function PackageDetailPage() {
 
   if (!pkg) {
     return (
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-[#FAFAFA]">
         <Nav />
         <div className="flex min-h-[70vh] flex-col items-center justify-center px-4">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-muted">
-            <Mountain className="h-10 w-10 text-muted-foreground/40" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#F3F4F6]">
+            <Mountain className="h-8 w-8 text-[#9CA3AF]" />
           </div>
-          <h1 className="mt-6 font-display text-3xl font-bold">Package Not Found</h1>
-          <p className="mt-3 max-w-md text-center text-muted-foreground">
+          <h1 className="mt-6 font-display text-[24px] font-semibold text-[#111827]">Package Not Found</h1>
+          <p className="mt-3 max-w-md text-center text-[14px] text-[#6B7280]">
             The package you're looking for doesn't exist or has been removed.
           </p>
           <Link
             to="/packages"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0F766E] px-6 py-3 text-[13px] font-medium text-white transition-colors hover:bg-[#0D6B63]"
           >
             <ArrowRight className="h-4 w-4 rotate-180" />
             Back to Packages
@@ -138,16 +125,11 @@ function PackageDetailPage() {
 
   const difficultyColor = (d: string) => {
     switch (d) {
-      case "Easy":
-        return "bg-emerald-500/20 text-emerald-400";
-      case "Moderate":
-        return "bg-primary/20 text-primary";
-      case "Challenging":
-        return "bg-accent/20 text-accent";
-      case "Strenuous":
-        return "bg-red-500/20 text-red-400";
-      default:
-        return "bg-muted text-muted-foreground";
+      case "Easy": return "bg-emerald-50 text-emerald-600";
+      case "Moderate": return "bg-[#0F766E]/10 text-[#0F766E]";
+      case "Challenging": return "bg-[#D4A574]/10 text-[#D4A574]";
+      case "Strenuous": return "bg-red-50 text-red-500";
+      default: return "bg-[#F3F4F6] text-[#6B7280]";
     }
   };
 
@@ -156,11 +138,11 @@ function PackageDetailPage() {
     : [pkg.image, pkg.image, pkg.image];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#FAFAFA]">
       <Nav />
 
-      {/* Hero: Full-bleed Image with Overlay */}
-      <section className="relative overflow-hidden bg-dark pt-28 pb-16 sm:pt-36 sm:pb-24">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-[#0C1222] pt-[104px] pb-16 sm:pt-[136px] sm:pb-20">
         <div className="absolute inset-0">
           <Img
             src={pkg.image}
@@ -168,19 +150,20 @@ function PackageDetailPage() {
             aspectRatio="aspect-auto"
             rounded="rounded-none"
             index={pkg.id.charCodeAt(pkg.id.length - 1)}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover opacity-25"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/70 to-dark/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,116,144,0.12),transparent_70%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C1222] via-[#0C1222]/70 to-[#0C1222]/40" />
         </div>
+        <div className="absolute left-1/4 top-20 h-72 w-72 rounded-full bg-[#0F766E]/5 blur-[120px]" />
+        <div className="absolute bottom-10 right-1/4 h-96 w-96 rounded-full bg-[#D4A574]/5 blur-[120px]" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
           {/* Breadcrumb */}
           <motion.nav
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-8 flex items-center gap-2 text-sm text-white/40"
+            transition={{ duration: 0.4, ease }}
+            className="mb-8 flex items-center gap-2 text-[13px] text-white/40"
           >
             <Link to="/" className="transition-colors hover:text-white/70">Home</Link>
             <ChevronRight className="h-3.5 w-3.5" />
@@ -193,54 +176,54 @@ function PackageDetailPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease }}
             >
               <div className="flex flex-wrap items-center gap-3 mb-4">
-                <span className="rounded-lg bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+                <span className="rounded-full bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
                   {pkg.region}
                 </span>
-                <span className="rounded-lg bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+                <span className="rounded-full bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
                   {pkg.category}
                 </span>
-                <span className={`rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-sm ${difficultyColor(pkg.difficulty)}`}>
+                <span className={`rounded-full px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${difficultyColor(pkg.difficulty)}`}>
                   {pkg.difficulty}
                 </span>
               </div>
 
-              <h1 className="font-display text-3xl font-bold tracking-tight text-light sm:text-4xl lg:text-5xl">
+              <h1 className="font-display text-[2rem] font-medium tracking-tight text-white sm:text-[2.5rem] lg:text-[3rem]">
                 {pkg.name}
               </h1>
 
-              <p className="mt-4 max-w-xl text-white/50 leading-relaxed">
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/50">
                 {pkg.description}
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-6">
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`h-4 w-4 ${
                           i < Math.floor(averageRating)
-                            ? "fill-accent text-accent"
+                            ? "fill-[#D4A574] text-[#D4A574]"
                             : "text-white/20"
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="text-sm font-semibold text-white">{averageRating}</span>
-                  <span className="text-sm text-white/40">({pkg.reviews.toLocaleString()} reviews)</span>
+                  <span className="text-[14px] font-semibold text-white">{averageRating}</span>
+                  <span className="text-[13px] text-white/40">({pkg.reviews.toLocaleString()} reviews)</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white/50">
+                <div className="flex items-center gap-2 text-[13px] text-white/50">
                   <Clock className="h-4 w-4" />
                   {pkg.duration}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white/50">
+                <div className="flex items-center gap-2 text-[13px] text-white/50">
                   <Mountain className="h-4 w-4" />
                   Max {pkg.maxAltitude}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white/50">
+                <div className="flex items-center gap-2 text-[13px] text-white/50">
                   <Users className="h-4 w-4" />
                   Group {pkg.groupSize}
                 </div>
@@ -251,23 +234,23 @@ function PackageDetailPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease }}
               className="hidden lg:block"
             >
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+              <div className="rounded-[20px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
                 <div className="mb-4">
                   {discount > 0 && (
-                    <span className="mr-2 text-sm text-white/30 line-through">
+                    <span className="mr-2 text-[14px] text-white/30 line-through">
                       ${pkg.originalPrice.toLocaleString()}
                     </span>
                   )}
-                  <span className="font-display text-4xl font-bold text-light">
+                  <span className="font-display text-[2rem] font-bold text-white">
                     ${pkg.price.toLocaleString()}
                   </span>
-                  <span className="text-sm text-white/40"> / person</span>
+                  <span className="text-[14px] text-white/40"> / person</span>
                 </div>
                 {discount > 0 && (
-                  <span className="mb-4 inline-flex items-center rounded-lg bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                  <span className="mb-4 inline-flex items-center rounded-full bg-[#D4A574]/20 px-3 py-1 text-[11px] font-bold text-[#D4A574]">
                     Save {discount}%
                   </span>
                 )}
@@ -276,26 +259,26 @@ function PackageDetailPage() {
 
                 <div className="space-y-3">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-white/50">Travel Date</label>
+                    <label className="mb-1 block text-[11px] font-medium uppercase tracking-wider text-white/40">Travel Date</label>
                     <div className="relative">
                       <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
                       <input
                         type="date"
                         value={travelDate}
                         onChange={(e) => setTravelDate(e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-light placeholder:text-white/30 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
+                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-[13px] text-white placeholder:text-white/30 focus:border-[#D4A574]/50 focus:outline-none focus:ring-1 focus:ring-[#D4A574]/30"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-white/50">Group Size</label>
+                    <label className="mb-1 block text-[11px] font-medium uppercase tracking-wider text-white/40">Group Size</label>
                     <select
                       value={groupSize}
                       onChange={(e) => setGroupSize(Number(e.target.value))}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-light focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[13px] text-white focus:border-[#D4A574]/50 focus:outline-none focus:ring-1 focus:ring-[#D4A574]/30"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16].map((n) => (
-                        <option key={n} value={n} className="bg-dark text-light">
+                        <option key={n} value={n} className="bg-[#0C1222] text-white">
                           {n} {n === 1 ? "person" : "people"}
                         </option>
                       ))}
@@ -305,11 +288,11 @@ function PackageDetailPage() {
 
                 <Link
                   to="/plan-my-trip"
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-accent py-3.5 text-sm font-bold text-white shadow-glow transition-all duration-300 hover:shadow-accent hover:scale-[1.02]"
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#D4A574] py-3.5 text-[13px] font-bold text-white shadow-[0_4px_20px_rgb(212,165,116,0.3)] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(212,165,116,0.5)] hover:scale-[1.02]"
                 >
                   Book Now — ${(pkg.price * groupSize).toLocaleString()}
                 </Link>
-                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 py-3 text-sm font-medium text-white/60 transition-all hover:border-white/20 hover:text-white/80">
+                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-white/10 py-3 text-[13px] font-medium text-white/60 transition-all hover:border-white/20 hover:text-white/80">
                   <Mail className="h-4 w-4" />
                   Send Inquiry
                 </button>
@@ -327,12 +310,12 @@ function PackageDetailPage() {
         </div>
       </section>
 
-      {/* Image Gallery Swiper */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+      {/* Image Gallery */}
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 -mt-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease }}
         >
           <Swiper
             modules={[Navigation, Pagination, Thumbs]}
@@ -341,7 +324,7 @@ function PackageDetailPage() {
             navigation
             pagination={{ clickable: true }}
             thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-            className="gallery-main rounded-2xl overflow-hidden border border-border shadow-elevated"
+            className="gallery-main rounded-[20px] overflow-hidden border border-[#F3F4F6] shadow-[0_8px_40px_rgb(0,0,0,0.12)]"
           >
             {galleryImages.map((img, i) => (
               <SwiperSlide key={i}>
@@ -366,7 +349,7 @@ function PackageDetailPage() {
           >
             {galleryImages.map((img, i) => (
               <SwiperSlide key={i}>
-                <div className="cursor-pointer overflow-hidden rounded-xl border-2 border-transparent transition-all duration-300 hover:border-primary/50 [&.swiper-slide-thumb-active]:border-primary">
+                <div className="cursor-pointer overflow-hidden rounded-[12px] border-2 border-transparent transition-all duration-300 hover:border-[#0F766E]/50 [&.swiper-slide-thumb-active]:border-[#0F766E]">
                   <Img
                     src={img}
                     alt={`Thumbnail ${i + 1}`}
@@ -383,25 +366,41 @@ function PackageDetailPage() {
       </section>
 
       {/* Main Content + Sidebar */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
           <div className="space-y-12">
-            {/* Overview Cards */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <h2 className="mb-6 font-display text-2xl font-bold">Overview</h2>
+            {/* Overview */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[#D4A574]" />
+                <h2 className="font-display text-[20px] font-semibold text-[#111827]">Overview</h2>
+              </div>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                <OverviewCard icon={<Star className="h-5 w-5 text-accent" />} label="Rating" value={`${pkg.rating} / 5`} sub={`${pkg.reviews.toLocaleString()} reviews`} />
-                <OverviewCard icon={<Clock className="h-5 w-5 text-primary" />} label="Duration" value={pkg.duration} sub={`${pkg.days} days`} />
-                <OverviewCard icon={<Mountain className="h-5 w-5 text-emerald-400" />} label="Max Altitude" value={pkg.maxAltitude} />
-                <OverviewCard icon={<Users className="h-5 w-5 text-primary" />} label="Group Size" value={`${pkg.groupSize} people`} />
-                <OverviewCard icon={<MapPin className="h-5 w-5 text-accent" />} label="Region" value={pkg.region} />
-                <OverviewCard icon={<Compass className="h-5 w-5 text-emerald-400" />} label="Difficulty" value={pkg.difficulty} />
+                <OverviewCard icon={<Star className="h-5 w-5 text-[#D4A574]" />} label="Rating" value={`${pkg.rating} / 5`} sub={`${pkg.reviews.toLocaleString()} reviews`} />
+                <OverviewCard icon={<Clock className="h-5 w-5 text-[#0F766E]" />} label="Duration" value={pkg.duration} sub={`${pkg.days} days`} />
+                <OverviewCard icon={<Mountain className="h-5 w-5 text-[#0F766E]" />} label="Max Altitude" value={pkg.maxAltitude} />
+                <OverviewCard icon={<Users className="h-5 w-5 text-[#0F766E]" />} label="Group Size" value={`${pkg.groupSize} people`} />
+                <OverviewCard icon={<MapPin className="h-5 w-5 text-[#D4A574]" />} label="Region" value={pkg.region} />
+                <OverviewCard icon={<Compass className="h-5 w-5 text-[#0F766E]" />} label="Difficulty" value={pkg.difficulty} />
               </div>
             </motion.div>
 
             {/* Highlights */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <h2 className="mb-6 font-display text-2xl font-bold">Highlights</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[#D4A574]" />
+                <h2 className="font-display text-[20px] font-semibold text-[#111827]">Highlights</h2>
+              </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {pkg.highlights.map((h, i) => (
                   <motion.div
@@ -409,37 +408,45 @@ function PackageDetailPage() {
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
+                    transition={{ delay: i * 0.05, ease }}
+                    className="flex items-start gap-3 rounded-[16px] border border-[#F3F4F6] bg-white p-4"
                   >
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10">
-                      <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0F766E]/10">
+                      <Check className="h-3.5 w-3.5 text-[#0F766E]" />
                     </div>
-                    <span className="text-sm leading-relaxed">{h}</span>
+                    <span className="text-[14px] leading-relaxed text-[#374151]">{h}</span>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Day-by-Day Itinerary */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <h2 className="mb-6 font-display text-2xl font-bold">Day-by-Day Itinerary</h2>
+            {/* Itinerary */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[#D4A574]" />
+                <h2 className="font-display text-[20px] font-semibold text-[#111827]">Day-by-Day Itinerary</h2>
+              </div>
               <Accordion type="multiple" className="space-y-3">
                 {pkg.itinerary.map((day, i) => (
                   <AccordionItem
                     key={day.day}
                     value={`day-${day.day}`}
-                    className="overflow-hidden rounded-xl border border-border bg-card"
+                    className="overflow-hidden rounded-[16px] border border-[#F3F4F6] bg-white"
                   >
                     <AccordionTrigger className="px-5 py-4 hover:no-underline">
                       <div className="flex items-center gap-4">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-primary text-xs font-bold text-white">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0F766E] text-[11px] font-bold text-white">
                           {day.day}
                         </span>
                         <div className="text-left">
-                          <h4 className="font-display text-sm font-semibold">{day.title}</h4>
+                          <h4 className="font-display text-[14px] font-semibold text-[#111827]">{day.title}</h4>
                           {day.altitude && (
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-[12px] text-[#9CA3AF]">
                               Altitude: {day.altitude}
                             </span>
                           )}
@@ -447,12 +454,12 @@ function PackageDetailPage() {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="px-5 pb-5">
-                      <div className="ml-13 border-l-2 border-primary/20 pl-9">
-                        <p className="text-sm leading-relaxed text-muted-foreground">
+                      <div className="ml-13 border-l-2 border-[#0F766E]/20 pl-9">
+                        <p className="text-[14px] leading-relaxed text-[#6B7280]">
                           {day.description}
                         </p>
                         {day.accommodation && (
-                          <div className="mt-3 inline-flex items-center gap-2 rounded-lg bg-muted px-3 py-1.5 text-xs text-muted-foreground">
+                          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#FAFAFA] px-3 py-1.5 text-[12px] text-[#6B7280]">
                             <Tent className="h-3.5 w-3.5" />
                             {day.accommodation}
                           </div>
@@ -465,28 +472,33 @@ function PackageDetailPage() {
             </motion.div>
 
             {/* Included / Not Included */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
               <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-2xl border border-border bg-card p-6">
-                  <h3 className="mb-4 font-display text-lg font-semibold text-emerald-400">
+                <div className="rounded-[20px] border border-[#F3F4F6] bg-white p-6">
+                  <h3 className="mb-4 font-display text-[16px] font-semibold text-[#0F766E]">
                     What's Included
                   </h3>
                   <ul className="space-y-3">
                     {pkg.includes.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                      <li key={i} className="flex items-start gap-3 text-[13px] text-[#374151]">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#0F766E]" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="rounded-2xl border border-border bg-card p-6">
-                  <h3 className="mb-4 font-display text-lg font-semibold text-red-400">
+                <div className="rounded-[20px] border border-[#F3F4F6] bg-white p-6">
+                  <h3 className="mb-4 font-display text-[16px] font-semibold text-red-500">
                     What's Not Included
                   </h3>
                   <ul className="space-y-3">
                     {pkg.excludes.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm">
+                      <li key={i} className="flex items-start gap-3 text-[13px] text-[#374151]">
                         <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
                         <span>{item}</span>
                       </li>
@@ -496,9 +508,17 @@ function PackageDetailPage() {
               </div>
             </motion.div>
 
-            {/* Equipment Checklist */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <h2 className="mb-6 font-display text-2xl font-bold">Equipment Checklist</h2>
+            {/* Equipment */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[#D4A574]" />
+                <h2 className="font-display text-[20px] font-semibold text-[#111827]">Equipment Checklist</h2>
+              </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {EQUIPMENT_CHECKLIST.map((item, i) => (
                   <motion.div
@@ -506,10 +526,10 @@ function PackageDetailPage() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.03 }}
-                    className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm"
+                    transition={{ delay: i * 0.03, ease }}
+                    className="flex items-center gap-3 rounded-[12px] border border-[#F3F4F6] bg-white px-4 py-3 text-[13px] text-[#374151]"
                   >
-                    <Backpack className="h-4 w-4 shrink-0 text-primary" />
+                    <Backpack className="h-4 w-4 shrink-0 text-[#0F766E]" />
                     {item}
                   </motion.div>
                 ))}
@@ -517,36 +537,44 @@ function PackageDetailPage() {
             </motion.div>
 
             {/* Reviews */}
-            <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <h2 className="mb-6 font-display text-2xl font-bold">Reviews</h2>
-              <div className="rounded-2xl border border-border bg-card p-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[#D4A574]" />
+                <h2 className="font-display text-[20px] font-semibold text-[#111827]">Reviews</h2>
+              </div>
+              <div className="rounded-[20px] border border-[#F3F4F6] bg-white p-6">
                 <div className="grid gap-8 sm:grid-cols-[200px_1fr]">
                   <div className="text-center">
-                    <div className="font-display text-5xl font-bold text-foreground">{averageRating}</div>
-                    <div className="mt-1 flex items-center justify-center gap-1">
+                    <div className="font-display text-[40px] font-bold text-[#111827]">{averageRating}</div>
+                    <div className="mt-1 flex items-center justify-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
                           className={`h-4 w-4 ${
-                            i < Math.floor(averageRating) ? "fill-accent text-accent" : "text-muted-foreground/30"
+                            i < Math.floor(averageRating) ? "fill-[#D4A574] text-[#D4A574]" : "text-[#E5E7EB]"
                           }`}
                         />
                       ))}
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-[13px] text-[#6B7280]">
                       {pkg.reviews.toLocaleString()} reviews
                     </p>
                     <div className="mt-4 space-y-2">
                       {ratingBreakdown.map((rb) => (
-                        <div key={rb.stars} className="flex items-center gap-2 text-xs">
-                          <span className="w-8 text-right text-muted-foreground">{rb.stars}★</span>
-                          <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                        <div key={rb.stars} className="flex items-center gap-2 text-[12px]">
+                          <span className="w-8 text-right text-[#9CA3AF]">{rb.stars}★</span>
+                          <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#F3F4F6]">
                             <div
-                              className="h-full rounded-full bg-accent"
+                              className="h-full rounded-full bg-[#D4A574]"
                               style={{ width: `${rb.pct}%` }}
                             />
                           </div>
-                          <span className="w-8 text-muted-foreground">{rb.pct}%</span>
+                          <span className="w-8 text-[#9CA3AF]">{rb.pct}%</span>
                         </div>
                       ))}
                     </div>
@@ -576,25 +604,25 @@ function PackageDetailPage() {
                         text: "Great trek overall. The itinerary was well-paced with proper acclimatization days. The teahouse accommodations were comfortable. Highly recommended for first-time trekkers.",
                       },
                     ].map((review, i) => (
-                      <div key={i} className="border-b border-border pb-4 last:border-0 last:pb-0">
+                      <div key={i} className="border-b border-[#F3F4F6] pb-4 last:border-0 last:pb-0">
                         <div className="flex items-center justify-between">
                           <div>
-                            <span className="text-sm font-semibold">{review.name}</span>
-                            <span className="ml-2 text-xs text-muted-foreground">{review.country}</span>
+                            <span className="text-[14px] font-semibold text-[#111827]">{review.name}</span>
+                            <span className="ml-2 text-[12px] text-[#9CA3AF]">{review.country}</span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             {[...Array(5)].map((_, j) => (
                               <Star
                                 key={j}
                                 className={`h-3 w-3 ${
-                                  j < review.rating ? "fill-accent text-accent" : "text-muted-foreground/20"
+                                  j < review.rating ? "fill-[#D4A574] text-[#D4A574]" : "text-[#E5E7EB]"
                                 }`}
                               />
                             ))}
                           </div>
                         </div>
-                        <p className="mt-1 text-xs text-muted-foreground">{review.date}</p>
-                        <p className="mt-2 text-sm leading-relaxed">{review.text}</p>
+                        <p className="mt-1 text-[12px] text-[#9CA3AF]">{review.date}</p>
+                        <p className="mt-2 text-[14px] leading-relaxed text-[#6B7280]">{review.text}</p>
                       </div>
                     ))}
                   </div>
@@ -602,12 +630,20 @@ function PackageDetailPage() {
               </div>
             </motion.div>
 
-            {/* Related Packages Swiper */}
+            {/* Related Packages */}
             {relatedPackages.length > 0 && (
-              <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <h2 className="mb-6 font-display text-2xl font-bold">
-                  More in {pkg.region}
-                </h2>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease }}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-[1px] w-8 bg-[#D4A574]" />
+                  <h2 className="font-display text-[20px] font-semibold text-[#111827]">
+                    More in {pkg.region}
+                  </h2>
+                </div>
                 <Swiper
                   modules={[Navigation, Pagination]}
                   spaceBetween={20}
@@ -625,7 +661,7 @@ function PackageDetailPage() {
                       <Link
                         to="/packages/$slug"
                         params={{ slug: rp.slug }}
-                        className="group block overflow-hidden rounded-2xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated"
+                        className="group block overflow-hidden rounded-[20px] bg-white shadow-[0_2px_20px_rgb(0,0,0,0.06)] transition-all duration-500 hover:shadow-[0_8px_40px_rgb(0,0,0,0.12)]"
                       >
                         <div className="relative overflow-hidden">
                           <Img
@@ -634,26 +670,26 @@ function PackageDetailPage() {
                             aspectRatio="aspect-[16/10]"
                             rounded="rounded-none"
                             index={rp.id.charCodeAt(rp.id.length - 1)}
-                            className="transition-transform duration-500 group-hover:scale-105"
+                            className="transition-transform duration-700 group-hover:scale-110"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                           <div className="absolute bottom-3 left-3 right-3">
-                            <h4 className="font-display text-sm font-bold text-light drop-shadow-lg">
+                            <h4 className="font-display text-[14px] font-semibold text-white drop-shadow-lg">
                               {rp.name}
                             </h4>
                           </div>
                         </div>
                         <div className="p-4">
-                          <div className="mb-2 flex items-center gap-2">
-                            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-                            <span className="text-xs font-semibold">{rp.rating}</span>
-                            <span className="text-xs text-muted-foreground">({rp.reviews})</span>
+                          <div className="mb-2 flex items-center gap-1.5">
+                            <Star className="h-3.5 w-3.5 fill-[#D4A574] text-[#D4A574]" />
+                            <span className="text-[13px] font-semibold text-[#111827]">{rp.rating}</span>
+                            <span className="text-[12px] text-[#9CA3AF]">({rp.reviews})</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-[12px] text-[#6B7280]">
                               {rp.duration} · {rp.difficulty}
                             </span>
-                            <span className="font-display text-lg font-bold text-primary">
+                            <span className="font-display text-[18px] font-bold text-[#111827]">
                               ${rp.price.toLocaleString()}
                             </span>
                           </div>
@@ -669,54 +705,54 @@ function PackageDetailPage() {
           {/* Sticky Sidebar */}
           <div className="hidden lg:block">
             <div className="sticky top-24">
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
+              <div className="rounded-[20px] border border-[#F3F4F6] bg-white p-6 shadow-[0_2px_20px_rgb(0,0,0,0.06)]">
                 <Img
                   src={pkg.image}
                   alt={pkg.name}
                   aspectRatio="aspect-[16/10]"
-                  rounded="rounded-xl"
+                  rounded="rounded-[12px]"
                   index={pkg.id.charCodeAt(pkg.id.length - 1)}
                   className="mb-4 w-full"
                 />
 
                 <div className="mb-2 flex items-baseline gap-2">
                   {discount > 0 && (
-                    <span className="text-sm text-muted-foreground line-through">
+                    <span className="text-[14px] text-[#9CA3AF] line-through">
                       ${pkg.originalPrice.toLocaleString()}
                     </span>
                   )}
-                  <span className="font-display text-3xl font-bold text-primary">
+                  <span className="font-display text-[28px] font-bold text-[#111827]">
                     ${pkg.price.toLocaleString()}
                   </span>
-                  <span className="text-sm text-muted-foreground">/ person</span>
+                  <span className="text-[13px] text-[#6B7280]">/ person</span>
                 </div>
                 {discount > 0 && (
-                  <span className="mb-4 inline-flex items-center rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400">
+                  <span className="mb-4 inline-flex items-center rounded-full bg-[#0F766E]/10 px-3 py-1 text-[11px] font-bold text-[#0F766E]">
                     Save {discount}%
                   </span>
                 )}
 
-                <div className="my-4 border-t border-border" />
+                <div className="my-4 border-t border-[#F3F4F6]" />
 
                 <div className="space-y-3">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-muted-foreground">Travel Date</label>
+                    <label className="mb-1 block text-[11px] font-medium uppercase tracking-wider text-[#9CA3AF]">Travel Date</label>
                     <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF]" />
                       <input
                         type="date"
                         value={travelDate}
                         onChange={(e) => setTravelDate(e.target.value)}
-                        className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+                        className="w-full rounded-xl border border-[#E5E7EB] bg-[#FAFAFA] py-2.5 pl-10 pr-4 text-[13px] text-[#111827] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]/30"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-muted-foreground">Group Size</label>
+                    <label className="mb-1 block text-[11px] font-medium uppercase tracking-wider text-[#9CA3AF]">Group Size</label>
                     <select
                       value={groupSize}
                       onChange={(e) => setGroupSize(Number(e.target.value))}
-                      className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      className="w-full rounded-xl border border-[#E5E7EB] bg-[#FAFAFA] px-4 py-2.5 text-[13px] text-[#111827] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]/30"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16].map((n) => (
                         <option key={n} value={n}>
@@ -727,26 +763,27 @@ function PackageDetailPage() {
                   </div>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between rounded-xl bg-muted/50 px-4 py-3">
-                  <span className="text-sm text-muted-foreground">
+                <div className="mt-3 flex items-center justify-between rounded-xl bg-[#FAFAFA] px-4 py-3">
+                  <span className="text-[13px] text-[#6B7280]">
                     Total ({groupSize} {groupSize === 1 ? "person" : "people"})
                   </span>
-                  <span className="font-display text-xl font-bold text-foreground">
+                  <span className="font-display text-[20px] font-bold text-[#111827]">
                     ${(pkg.price * groupSize).toLocaleString()}
                   </span>
                 </div>
 
                 <Link
                   to="/plan-my-trip"
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-accent py-3.5 text-sm font-bold text-white shadow-glow transition-all duration-300 hover:shadow-accent hover:scale-[1.02]"
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#D4A574] py-3.5 text-[13px] font-bold text-white shadow-[0_4px_20px_rgb(212,165,116,0.3)] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(212,165,116,0.5)] hover:scale-[1.02]"
                 >
                   Book Now
                 </Link>
-                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-border py-3 text-sm font-medium text-foreground transition-all hover:bg-muted">
+                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-[#E5E7EB] py-3 text-[13px] font-medium text-[#6B7280] transition-all hover:bg-[#FAFAFA] hover:text-[#111827]">
+                  <Mail className="h-4 w-4" />
                   Send Inquiry
                 </button>
 
-                <div className="my-4 border-t border-border" />
+                <div className="my-4 border-t border-[#F3F4F6]" />
 
                 <div className="space-y-3">
                   <TrustBadge icon={<Headphones className="h-4 w-4" />} text="24/7 Support" />
@@ -755,20 +792,20 @@ function PackageDetailPage() {
                   <TrustBadge icon={<CreditCard className="h-4 w-4" />} text="Pay 30% now, rest before departure" />
                 </div>
 
-                <div className="my-4 border-t border-border" />
+                <div className="my-4 border-t border-[#F3F4F6]" />
 
                 <div className="flex items-center justify-center gap-4">
-                  <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
+                  <button className="flex items-center gap-1.5 text-[12px] text-[#9CA3AF] transition-colors hover:text-[#0F766E]">
                     <Heart className="h-3.5 w-3.5" />
                     Save
                   </button>
-                  <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
+                  <button className="flex items-center gap-1.5 text-[12px] text-[#9CA3AF] transition-colors hover:text-[#0F766E]">
                     <Share2 className="h-3.5 w-3.5" />
                     Share
                   </button>
-                  <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
-                    <Printer className="h-3.5 w-3.5" />
-                    Print
+                  <button className="flex items-center gap-1.5 text-[12px] text-[#9CA3AF] transition-colors hover:text-[#0F766E]">
+                    <Phone className="h-3.5 w-3.5" />
+                    Call
                   </button>
                 </div>
               </div>
@@ -778,24 +815,24 @@ function PackageDetailPage() {
       </section>
 
       {/* Mobile Sticky Bottom Bar */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-4 py-3 backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#E5E7EB] bg-white/95 px-4 py-3 backdrop-blur-xl lg:hidden">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <div>
-            <div className="font-display text-xl font-bold text-primary">
+            <div className="font-display text-[18px] font-bold text-[#111827]">
               ${pkg.price.toLocaleString()}
-              <span className="text-xs font-normal text-muted-foreground">/ person</span>
+              <span className="text-[12px] font-normal text-[#9CA3AF]">/ person</span>
             </div>
             {discount > 0 && (
-              <span className="text-[10px] font-bold text-emerald-400">Save {discount}%</span>
+              <span className="text-[10px] font-bold text-[#0F766E]">Save {discount}%</span>
             )}
           </div>
           <div className="flex gap-2">
-            <button className="rounded-xl border border-border px-4 py-2.5 text-xs font-medium text-foreground transition-colors hover:bg-muted">
+            <button className="rounded-full border border-[#E5E7EB] px-4 py-2.5 text-[12px] font-medium text-[#6B7280] transition-colors hover:bg-[#FAFAFA]">
               Inquiry
             </button>
             <Link
               to="/plan-my-trip"
-              className="rounded-xl bg-gradient-accent px-6 py-2.5 text-xs font-bold text-white shadow-glow"
+              className="rounded-full bg-[#D4A574] px-6 py-2.5 text-[12px] font-bold text-white shadow-[0_4px_16px_rgb(212,165,116,0.3)]"
             >
               Book Now
             </Link>
@@ -827,30 +864,31 @@ function PackageDetailPage() {
           opacity: 1;
         }
         .gallery-main .swiper-pagination-bullet-active {
-          background: #14b8a6;
+          background: #D4A574;
         }
         .gallery-thumbs .swiper-slide-thumb-active img {
           opacity: 1 !important;
         }
         .related-swiper .swiper-button-next,
         .related-swiper .swiper-button-prev {
-          color: hsl(var(--foreground));
-          background: hsl(var(--card));
-          border: 1px solid hsl(var(--border));
+          color: #111827;
+          background: white;
+          border: 1px solid #E5E7EB;
           width: 40px;
           height: 40px;
           border-radius: 50%;
+          box-shadow: 0 2px 8px rgb(0,0,0,0.08);
         }
         .related-swiper .swiper-button-next::after,
         .related-swiper .swiper-button-prev::after {
           font-size: 14px;
         }
         .related-swiper .swiper-pagination-bullet {
-          background: hsl(var(--muted-foreground));
+          background: #9CA3AF;
           opacity: 0.3;
         }
         .related-swiper .swiper-pagination-bullet-active {
-          background: hsl(var(--primary));
+          background: #0F766E;
           opacity: 1;
         }
       `}</style>
@@ -870,11 +908,11 @@ function OverviewCard({
   sub?: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-4">
       <div className="mb-2">{icon}</div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="mt-0.5 font-display text-sm font-bold">{value}</p>
-      {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+      <p className="text-[11px] font-medium uppercase tracking-wider text-[#9CA3AF]">{label}</p>
+      <p className="mt-0.5 font-display text-[14px] font-semibold text-[#111827]">{value}</p>
+      {sub && <p className="text-[12px] text-[#9CA3AF]">{sub}</p>}
     </div>
   );
 }
@@ -882,10 +920,10 @@ function OverviewCard({
 function TrustBadge({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0F766E]/10 text-[#0F766E]">
         {icon}
       </div>
-      <span className="text-xs text-muted-foreground">{text}</span>
+      <span className="text-[12px] text-[#6B7280]">{text}</span>
     </div>
   );
 }
